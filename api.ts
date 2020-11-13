@@ -21,7 +21,7 @@ const refreshToken = async (): Promise<RefreshedAccessTokenResponse> => {
       }
     )
     .then((res) => res.data)
-    .catch((error) => console.log(error))
+    .catch((error) => console.log('refreshToken ERROR! ' + error.message))
   console.log('--- refreshToken() DONE --- access_token:' + data.access_token)
   return data
 }
@@ -52,6 +52,9 @@ const interceptor = axiosApiInstance.interceptors.response.use(
        */
       axios.interceptors.response.eject(interceptor)
       const data: RefreshedAccessTokenResponse = await refreshToken()
+      if (!data || data === undefined) {
+        return Promise.reject(error)
+      }
       await asyncRedisClient.setAccessToken(data.access_token)
 
       error.response.config.headers['Authorization'] = 'Bearer ' + data.access_token

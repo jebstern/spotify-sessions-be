@@ -3,12 +3,12 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
-import { PORT } from './constants'
 import * as api from './api'
 import { CurrentlyPlaying, Playlist, User } from './types'
 import AsyncRedisClient from './async-redis-client'
 import routes from './routes/'
 
+const PORT = process.env.PORT || 3001
 const asyncRedisClient = new AsyncRedisClient()
 const allowCrossDomain = function (req: any, res: any, next: any) {
   res.header('Access-Control-Allow-Origin', '*')
