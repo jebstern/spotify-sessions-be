@@ -12,7 +12,7 @@ export default class AsyncRedisClient {
     if (AsyncRedisClient.instance) {
       return AsyncRedisClient.instance
     }
-    this.client = redis.createClient({})
+    this.client = redis.createClient(process.env.REDIS_URL)
     this.client.on('connect', function () {
       console.log('Redis connected')
     })
